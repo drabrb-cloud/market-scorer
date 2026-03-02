@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Context Scorer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d12;--s1:#13161e;--s2:#1a1e28;--s3:#222833;--bd:#2a3040;--bd2:#353d50;--t:#e8eaf0;--tm:#8892a8;--td:#5a6478;--g:#22c55e;--gbg:rgba(34,197,94,.08);--r:#ef4444;--rbg:rgba(239,68,68,.08);--y:#eab308;--ybg:rgba(234,179,8,.08);--o:#f97316;--obg:rgba(249,115,22,.08);--b:#3b82f6;--c:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:'Outfit',sans-serif;padding:16px;line-height:1.6}
+.w{max-width:900px;margin:0 auto}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Header */
+.hdr{text-align:center;padding:24px 0 20px;border-bottom:1px solid var(--bd);margin-bottom:24px}
+.hdr-tag{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--c);margin-bottom:8px}
+.hdr h1{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.hdr-sub{font-size:13px;color:var(--td);margin-top:4px}
+.hdr-time{font-size:12px;color:var(--tm);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot.g{background:var(--g);box-shadow:0 0 6px var(--g)}
+.dot.r{background:var(--r)}
+.dot.y{background:var(--y)}
+
+/* Score hero */
+.score-hero{display:flex;align-items:center;justify-content:center;gap:32px;padding:28px;background:var(--s1);border:1px solid var(--bd);border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden;flex-wrap:wrap}
+.score-hero::before{content:'';position:absolute;inset:0;border-radius:14px;transition:background .4s}
+.score-hero.sig-green::before{background:rgba(34,197,94,.06)}
+.score-hero.sig-yellow::before{background:rgba(234,179,8,.06)}
+.score-hero.sig-orange::before{background:rgba(249,115,22,.06)}
+.score-hero.sig-red::before{background:rgba(239,68,68,.06)}
+.score-num{font-size:56px;font-weight:800;position:relative;z-index:1;transition:color .3s}
+.score-num span{font-size:24px;font-weight:400;color:var(--td)}
+.score-info{position:relative;z-index:1}
+.score-label{font-size:20px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:color .3s}
+.score-desc{font-size:13px;color:var(--tm);max-width:260px;margin-top:2px}
+
+/* Sub-scores bar */
+.sub-scores{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.sub-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;text-align:center}
+.sub-title{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--td);margin-bottom:8px}
+.sub-val{font-size:28px;font-weight:700}
+.sub-bar{height:4px;background:var(--s3);border-radius:2px;margin-top:8px;overflow:hidden}
+.sub-fill{height:100%;border-radius:2px;transition:width .6s ease}
+
+/* Risk box */
+.risk-box{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:24px}
+.risk-item{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.risk-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--td);margin-bottom:6px}
+.risk-val{font-size:20px;font-weight:700}
+
+/* Sections */
+.sec{margin-bottom:20px}
+.sec-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:8px;margin-bottom:10px;cursor:pointer;user-select:none;border-left:3px solid var(--b)}
+.sec-hdr.cyan{border-left-color:var(--c)}
+.sec-hdr.orange{border-left-color:var(--o)}
+.sec-icon{font-size:16px}
+.sec-title{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;flex:1}
+.sec-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px}
+
+/* Detail rows */
+.detail-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border:1px solid var(--bd);border-radius:8px;margin-bottom:5px;font-size:13px}
+.detail-icon{font-size:15px;min-width:20px;text-align:center}
+.detail-text{flex:1;color:var(--tm)}
+.detail-val{font-weight:600;min-width:60px;text-align:right}
+
+/* Sector table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--td);border-bottom:1px solid var(--bd)}
+.tbl td{padding:8px 10px;border-bottom:1px solid var(--bd)}
+.tbl tr:hover td{background:var(--s2)}
+.tbl .r-col{text-align:right}
+.spark{width:60px;height:24px}
+
+/* Tags */
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+.tag-g{background:rgba(34,197,94,.12);color:var(--g)}
+.tag-r{background:rgba(239,68,68,.12);color:var(--r)}
+.tag-y{background:rgba(234,179,8,.12);color:var(--y)}
+.tag-n{background:var(--s3);color:var(--tm)}
+
+/* History chart */
+.hist-wrap{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:20px}
+.hist-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--td);margin-bottom:12px}
+.hist-chart{width:100%;height:120px}
+
+/* Position calc */
+.calc{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px}
+.calc-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--o);margin-bottom:14px}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.calc-field label{display:block;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--td);margin-bottom:4px}
+.calc-field input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;color:var(--t);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none}
+.calc-field input:focus{border-color:var(--c)}
+.calc-results{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-top:14px;border-top:1px solid var(--bd)}
+.calc-res{text-align:center;padding:10px;background:var(--s2);border-radius:6px}
+.calc-res-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--td);margin-bottom:4px}
+.calc-res-val{font-size:18px;font-weight:700}
+
+/* Circuit breakers */
+.cb{background:var(--s1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:16px;margin-bottom:20px}
+.cb-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--r);margin-bottom:10px}
+.cb-rule{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--s2);border-radius:6px;font-size:12px;color:var(--tm);margin-bottom:5px}
+.cb-tag{font-size:9px;font-weight:700;padding:3px 7px;border-radius:3px;min-width:55px;text-align:center}
+.cb-1{background:rgba(234,179,8,.15);color:var(--y)}
+.cb-2{background:rgba(249,115,22,.15);color:var(--o)}
+.cb-3{background:rgba(239,68,68,.15);color:var(--r)}
+
+/* Sector selector */
+.sec-sel{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.sec-sel label{font-size:11px;font-weight:600;color:var(--td);letter-spacing:1px;text-transform:uppercase}
+.sec-sel select{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;color:var(--t);font-family:'Outfit',sans-serif;font-size:13px;outline:none;cursor:pointer}
+.sec-sel select:focus{border-color:var(--c)}
+
+/* Loading */
+.loading{text-align:center;padding:60px 20px;color:var(--td)}
+.loading-spin{display:inline-block;width:28px;height:28px;border:3px solid var(--bd);border-top-color:var(--c);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Footer */
+.ftr{text-align:center;padding:20px 0;border-top:1px solid var(--bd);margin-top:24px;font-size:12px;color:var(--td)}
+
+@media(max-width:640px){
+  .score-hero{flex-direction:column;text-align:center;gap:16px}
+  .risk-box{grid-template-columns:1fr 1fr}
+  .calc-grid{grid-template-columns:1fr}
+  .calc-results{grid-template-columns:1fr}
+  .sub-scores{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="w">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-tag mono">Pre-Trade Checklist &mdash; Sezione A</div>
+    <h1>Market Context Scorer</h1>
+    <div class="hdr-sub">Punteggio minimo 2.0/3.0 per tradare &mdash; Aggiornamento automatico ogni sera</div>
+    <div class="hdr-time mono" id="update-time"><span class="dot"></span> Caricamento...</div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading">
+    <div class="loading-spin"></div>
+    <div>Caricamento dati di mercato...</div>
+  </div>
+
+  <!-- Content (hidden until loaded) -->
+  <div id="content" style="display:none">
+
+    <!-- Score Hero -->
+    <div class="score-hero" id="score-hero">
+      <div>
+        <div class="score-num mono" id="total-score">0<span>/3</span></div>
+      </div>
+      <div class="score-info">
+        <div class="score-label" id="verdict-label">CARICAMENTO</div>
+        <div class="score-desc" id="verdict-desc"></div>
+      </div>
+    </div>
+
+    <!-- Sub-scores -->
+    <div class="sub-scores">
+      <div class="sub-card">
+        <div class="sub-title mono">A1 &mdash; Trend</div>
+        <div class="sub-val mono" id="a1-score" style="color:var(--b)">0</div>
+        <div class="sub-bar"><div class="sub-fill" id="a1-bar" style="background:var(--b);width:0%"></div></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-title mono">A2 &mdash; Breadth</div>
+        <div class="sub-val mono" id="a2-score" style="color:var(--c)">0</div>
+        <div class="sub-bar"><div class="sub-fill" id="a2-bar" style="background:var(--c);width:0%"></div></div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-title mono">A3 &mdash; Settore</div>
+        <div class="sub-val mono" id="a3-score" style="color:var(--o)">0</div>
+        <div class="sub-bar"><div class="sub-fill" id="a3-bar" style="background:var(--o);width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Risk sizing -->
+    <div class="risk-box" id="risk-box"></div>
+
+    <!-- A1 Detail -->
+    <div class="sec">
+      <div class="sec-hdr" onclick="toggle('a1-detail')">
+        <span class="sec-icon">&#128200;</span>
+        <span class="sec-title">A1 &mdash; Trend Mercato</span>
+        <span class="sec-badge mono" id="a1-badge"></span>
+      </div>
+      <div id="a1-detail"></div>
+    </div>
+
+    <!-- A2 Detail -->
+    <div class="sec">
+      <div class="sec-hdr cyan" onclick="toggle('a2-detail')">
+        <span class="sec-icon">&#128202;</span>
+        <span class="sec-title">A2 &mdash; Market Breadth</span>
+        <span class="sec-badge mono" id="a2-badge"></span>
+      </div>
+      <div id="a2-detail"></div>
+    </div>
+
+    <!-- Sector selector + A3 -->
+    <div class="sec">
+      <div class="sec-hdr orange" onclick="toggle('a3-detail')">
+        <span class="sec-icon">&#127919;</span>
+        <span class="sec-title">A3 &mdash; Forza Relativa Settori</span>
+        <span class="sec-badge mono" id="a3-badge"></span>
+      </div>
+      <div id="a3-detail"></div>
+    </div>
+
+    <!-- Score History -->
+    <div class="hist-wrap">
+      <div class="hist-title mono">Storico Punteggi (ultimi 90 giorni)</div>
+      <canvas class="hist-chart" id="hist-canvas"></canvas>
+    </div>
+
+    <!-- Position Calc -->
+    <div class="calc">
+      <div class="calc-title mono">&#9889; Calcolatore Posizione</div>
+      <div class="calc-grid">
+        <div class="calc-field"><label class="mono">Prezzo entrata ($)</label><input type="number" id="c-entry" step="0.01" oninput="calcPos()"></div>
+        <div class="calc-field"><label class="mono">Stop loss ($)</label><input type="number" id="c-stop" step="0.01" oninput="calcPos()"></div>
+        <div class="calc-field"><label class="mono">Rischio max ($)</label><input type="number" id="c-risk" step="100" value="4000" oninput="calcPos()"></div>
+      </div>
+      <div class="calc-results">
+        <div class="calc-res"><div class="calc-res-label mono">Shares</div><div class="calc-res-val mono" id="cr-shares" style="color:var(--c)">&mdash;</div></div>
+        <div class="calc-res"><div class="calc-res-label mono">Valore Posizione</div><div class="calc-res-val mono" id="cr-value">&mdash;</div></div>
+        <div class="calc-res"><div class="calc-res-label mono">% Portafoglio</div><div class="calc-res-val mono" id="cr-pct" style="color:var(--o)">&mdash;</div></div>
+      </div>
+    </div>
+
+    <!-- Circuit Breakers -->
+    <div class="cb">
+      <div class="cb-title mono">&#9888;&#65039; Circuit Breaker Rules</div>
+      <div class="cb-rule"><span class="cb-tag cb-1 mono">LIV. 1</span> 3 loss consecutive &rarr; Dimezza size (0.12%) e max 1 trade/settimana</div>
+      <div class="cb-rule"><span class="cb-tag cb-2 mono">LIV. 2</span> 5 loss consecutive &rarr; Cash per 3 giorni. Solo osservazione.</div>
+      <div class="cb-rule"><span class="cb-tag cb-3 mono">LIV. 3</span> -3% nel mese &rarr; Stop trading. Review completa.</div>
+    </div>
+
+  </div>
+
+  <div class="ftr mono">
+    Market Context Scorer &mdash; Auto-refresh via GitHub Actions &middot; Yahoo Finance<br>
+    <span style="font-size:11px;color:var(--td)">Sezione A della Pre-Trade Checklist</span>
+  </div>
+</div>
+
+<script>
+const PORTFOLIO = 1611327;
+const COLORS = {green:'var(--g)',yellow:'var(--y)',orange:'var(--o)',red:'var(--r)'};
+const LABELS = {green:'SEMAFORO VERDE',yellow:'SEMAFORO GIALLO',orange:'SEMAFORO ARANCIONE',red:'SEMAFORO ROSSO'};
+const DESCS = {
+  green:'Mercato favorevole. Size standard (0.25% risk). Max 2-3 trade/settimana.',
+  yellow:'Mercato incerto. Size ridotta (0.15%). Max 1-2 trade/settimana. Solo A+.',
+  orange:'Mercato debole. Difensivo (0.10%). Max 1 trade/settimana.',
+  red:'Mercato ostile. NON TRADARE. Resta in cash.'
+};
+
+let DATA = null;
+
+async function loadData() {
+  try {
+    const res = await fetch('data/market_data.json');
+    if (!res.ok) throw new Error('File non trovato');
+    DATA = await res.json();
+    render();
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<div style="color:var(--r)">&#10060; Errore caricamento dati.<br><span style="font-size:13px;color:var(--tm)">Esegui prima lo script build_data.py o lancia la GitHub Action.</span></div>';
+  }
+}
+
+function render() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  const d = DATA;
+  const sig = d.verdict.signal;
+  const col = COLORS[sig];
+
+  // Update time
+  document.getElementById('update-time').innerHTML = `<span class="dot ${sig === 'green' ? 'g' : sig === 'red' ? 'r' : 'y'}"></span> Ultimo aggiornamento: ${d.generated_at}`;
+
+  // Hero
+  const hero = document.getElementById('score-hero');
+  hero.className = 'score-hero sig-' + sig;
+  document.getElementById('total-score').innerHTML = `${d.total_score.toFixed(1)}<span>/3</span>`;
+  document.getElementById('total-score').style.color = col;
+  document.getElementById('verdict-label').textContent = LABELS[sig];
+  document.getElementById('verdict-label').style.color = col;
+  document.getElementById('verdict-desc').textContent = DESCS[sig];
+
+  // Sub-scores
+  setScore('a1', d.a1_trend.score);
+  setScore('a2', d.a2_breadth.score);
+  setScore('a3', d.a3_sector.score);
+
+  // Risk box
+  const rb = document.getElementById('risk-box');
+  rb.innerHTML = `
+    <div class="risk-item"><div class="risk-label mono">Rischio/Trade</div><div class="risk-val mono" style="color:${col}">$${d.verdict.risk_dollar.toLocaleString()}</div></div>
+    <div class="risk-item"><div class="risk-label mono">Risk %</div><div class="risk-val mono">${d.verdict.risk_pct}%</div></div>
+    <div class="risk-item"><div class="risk-label mono">Max Trade/Sett.</div><div class="risk-val mono">${d.verdict.max_trades_week}</div></div>
+    <div class="risk-item"><div class="risk-label mono">Budget Sett.</div><div class="risk-val mono">$${d.verdict.weekly_loss_budget.toLocaleString()}</div></div>
+  `;
+  document.getElementById('c-risk').value = d.verdict.risk_dollar;
+
+  // A1 Detail
+  renderA1(d);
+  // A2 Detail
+  renderA2(d);
+  // A3 Detail
+  renderA3(d);
+  // History
+  loadHistory();
+}
+
+function setScore(id, val) {
+  document.getElementById(id+'-score').textContent = val.toFixed(2);
+  document.getElementById(id+'-bar').style.width = (val*100)+'%';
+  const badge = document.getElementById(id+'-badge');
+  badge.textContent = val.toFixed(2)+' / 1.00';
+  if(val>=0.7){badge.style.background='rgba(34,197,94,.12)';badge.style.color='var(--g)'}
+  else if(val>=0.4){badge.style.background='rgba(234,179,8,.12)';badge.style.color='var(--y)'}
+  else{badge.style.background='rgba(239,68,68,.12)';badge.style.color='var(--r)'}
+}
+
+function icon(ok){return ok?'&#9989;':'&#10060;'}
+function renderA1(d){
+  const det = d.a1_trend.details;
+  let html = '';
+  for(const [idx,label] of [['QQQ','Nasdaq 100'],['SPY','S&P 500']]){
+    const m = d.market_indices[idx];
+    const dd = det[idx];
+    if(!m||!dd) continue;
+    html += `<div style="font-size:11px;font-weight:600;color:var(--tm);padding:8px 14px;letter-spacing:1px;text-transform:uppercase">${label} (${idx}) &mdash; $${m.price}</div>`;
+    html += row(icon(dd.above_ema21), `Prezzo ${dd.above_ema21?'sopra':'SOTTO'} 21 EMA`, `$${m.ema21} (${m.dist_ema21_pct>0?'+':''}${m.dist_ema21_pct}%)`);
+    html += row(icon(dd.ema_aligned), `21 EMA ${dd.ema_aligned?'>':'<'} 50 EMA`, `$${m.ema21} vs $${m.ema50}`);
+    html += row(icon(dd.above_sma200), `Prezzo ${dd.above_sma200?'sopra':'SOTTO'} 200 SMA`, `$${m.sma200}`);
+    html += row(icon(dd.hh_hl), `Higher Highs/Lows ${dd.hh_hl?'confermati':'rotti'}`, `Slope: ${dd.ema21_slope>0?'+':''}${dd.ema21_slope}%`);
+  }
+  document.getElementById('a1-detail').innerHTML = html;
+}
+
+function renderA2(d){
+  const b = d.a2_breadth;
+  let html = '';
+  html += row(b.pct_above_50sma>=55?'&#9989;':b.pct_above_50sma>=40?'&#9888;&#65039;':'&#10060;',
+    `${b.pct_above_50sma}% titoli sopra 50 SMA`, `${b.above_50sma}/${b.total}`);
+  html += row(b.ad_ratio>=1.2?'&#9989;':b.ad_ratio>=0.8?'&#9888;&#65039;':'&#10060;',
+    `A/D ratio: ${b.ad_ratio}`, `${b.advancing} adv / ${b.declining} dec`);
+  html += row(b.near_highs>b.near_lows?'&#9989;':'&#10060;',
+    `Nuovi massimi vs minimi`, `+${b.near_highs} / -${b.near_lows}`);
+  document.getElementById('a2-detail').innerHTML = html;
+}
+
+function renderA3(d){
+  const sectors = d.sectors;
+  const sorted = Object.entries(sectors).sort((a,b) => b[1].rs_diff - a[1].rs_diff);
+
+  let html = '<div style="overflow-x:auto"><table class="tbl"><thead><tr>';
+  html += '<th>#</th><th>Settore</th><th>Prezzo</th><th>1D%</th><th>1W%</th><th>4W%</th><th>RS vs SPY</th><th>EMA21</th><th>Score</th>';
+  html += '</tr></thead><tbody>';
+
+  for(const [i,[ticker,s]] of sorted.entries()){
+    const rsCol = s.rs_diff > 0.5 ? 'var(--g)' : s.rs_diff > -0.5 ? 'var(--y)' : 'var(--r)';
+    const isDefault = ticker === d.a3_sector.default_sector;
+    html += `<tr style="${isDefault?'background:var(--s2)':''}">`;
+    html += `<td class="mono" style="color:var(--td)">${i+1}</td>`;
+    html += `<td><strong>${ticker}</strong> <span style="color:var(--td);font-size:11px">${s.name}</span>${isDefault?' &#11088;':''}</td>`;
+    html += `<td class="mono r-col">$${s.price}</td>`;
+    html += `<td class="mono r-col" style="color:${s.change_1d>=0?'var(--g)':'var(--r)'}">${s.change_1d>=0?'+':''}${s.change_1d}%</td>`;
+    html += `<td class="mono r-col" style="color:${s.change_1w>=0?'var(--g)':'var(--r)'}">${s.change_1w>=0?'+':''}${s.change_1w}%</td>`;
+    html += `<td class="mono r-col" style="color:${s.change_4w>=0?'var(--g)':'var(--r)'}">${s.change_4w>=0?'+':''}${s.change_4w}%</td>`;
+    html += `<td class="mono r-col" style="color:${rsCol};font-weight:600">${s.rs_diff>=0?'+':''}${s.rs_diff}%</td>`;
+    html += `<td style="text-align:center">${s.above_ema21?'<span class="tag tag-g">SOPRA</span>':'<span class="tag tag-r">SOTTO</span>'}</td>`;
+    html += `<td class="mono r-col" style="font-weight:600">${s.rs_score.toFixed(1)}</td>`;
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+  document.getElementById('a3-detail').innerHTML = html;
+}
+
+function row(ic, text, val){
+  return `<div class="detail-row"><div class="detail-icon">${ic}</div><div class="detail-text">${text}</div><div class="detail-val mono">${val}</div></div>`;
+}
+
+function toggle(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// History chart
+async function loadHistory(){
+  try{
+    const res = await fetch('data/score_history.json');
+    if(!res.ok) return;
+    const hist = await res.json();
+    drawHistory(hist);
+  }catch(e){}
+}
+
+function drawHistory(hist){
+  const canvas = document.getElementById('hist-canvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  if(hist.length < 2) {
+    ctx.fillStyle = '#5a6478';
+    ctx.font = '12px Outfit';
+    ctx.textAlign = 'center';
+    ctx.fillText('Storico disponibile dopo 2+ giorni di dati', W/2, H/2);
+    return;
+  }
+
+  const pad = {t:10,r:10,b:20,l:30};
+  const cw = W-pad.l-pad.r, ch = H-pad.t-pad.b;
+
+  // Zones
+  const zones = [
+    {y:0, h:0.5/3*ch, color:'rgba(239,68,68,.06)'},
+    {y:0.5/3*ch, h:0.5/3*ch, color:'rgba(249,115,22,.06)'},
+    {y:1/3*ch, h:0.5/3*ch, color:'rgba(234,179,8,.06)'},
+    {y:1.5/3*ch, h:1.5/3*ch, color:'rgba(34,197,94,.06)'},
+  ];
+  zones.forEach(z => {
+    ctx.fillStyle = z.color;
+    ctx.fillRect(pad.l, pad.t + ch - z.y - z.h, cw, z.h);
+  });
+
+  // Threshold lines
+  [1.5, 2.0, 2.5].forEach(v => {
+    const y = pad.t + ch - (v/3)*ch;
+    ctx.strokeStyle = 'rgba(255,255,255,.06)';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#5a6478';
+    ctx.font = '9px JetBrains Mono';
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(1), pad.l-4, y+3);
+  });
+
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle = '#06b6d4';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  hist.forEach((h,i) => {
+    const x = pad.l + (i/(hist.length-1))*cw;
+    const y = pad.t + ch - (h.total/3)*ch;
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Dots
+  hist.forEach((h,i) => {
+    const x = pad.l + (i/(hist.length-1))*cw;
+    const y = pad.t + ch - (h.total/3)*ch;
+    const col = h.signal==='green'?'#22c55e':h.signal==='yellow'?'#eab308':h.signal==='orange'?'#f97316':'#ef4444';
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  // Date labels
+  ctx.fillStyle = '#5a6478';
+  ctx.font = '9px JetBrains Mono';
+  ctx.textAlign = 'center';
+  if(hist.length > 0) {
+    ctx.fillText(hist[0].date.slice(5), pad.l, H-2);
+    ctx.fillText(hist[hist.length-1].date.slice(5), pad.l+cw, H-2);
+    if(hist.length > 5) {
+      const mid = Math.floor(hist.length/2);
+      ctx.fillText(hist[mid].date.slice(5), pad.l+(mid/(hist.length-1))*cw, H-2);
+    }
+  }
+}
+
+// Position calculator
+function calcPos(){
+  const entry = parseFloat(document.getElementById('c-entry').value);
+  const stop = parseFloat(document.getElementById('c-stop').value);
+  const risk = parseFloat(document.getElementById('c-risk').value);
+  if(!entry||!stop||!risk||entry<=stop){
+    document.getElementById('cr-shares').textContent = '\u2014';
+    document.getElementById('cr-value').textContent = '\u2014';
+    document.getElementById('cr-pct').textContent = '\u2014';
+    return;
+  }
+  const rps = entry - stop;
+  const shares = Math.floor(risk / rps);
+  const value = shares * entry;
+  const pct = value / PORTFOLIO * 100;
+  document.getElementById('cr-shares').textContent = shares.toLocaleString();
+  document.getElementById('cr-value').textContent = '$' + value.toLocaleString();
+  const pctEl = document.getElementById('cr-pct');
+  pctEl.textContent = pct.toFixed(1) + '%';
+  pctEl.style.color = pct > 15 ? 'var(--r)' : pct > 10 ? 'var(--o)' : 'var(--c)';
+}
+
+window.addEventListener('resize', () => { if(DATA) loadHistory(); });
+loadData();
+</script>
+</body>
+</html>
