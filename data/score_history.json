@@ -34,5 +34,14 @@
     "a3": 0.7,
     "signal": "orange",
     "pct_above_50sma": 49.4
+  },
+  {
+    "date": "2026-03-05",
+    "total": 1.58,
+    "a1": 0.38,
+    "a2": 0.5,
+    "a3": 0.7,
+    "signal": "orange",
+    "pct_above_50sma": 45.6
   }
 ]
