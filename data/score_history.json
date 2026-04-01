@@ -205,5 +205,14 @@
     "a3": 0.7,
     "signal": "red",
     "pct_above_50sma": 25.3
+  },
+  {
+    "date": "2026-04-01",
+    "total": 1.25,
+    "a1": 0.0,
+    "a2": 0.25,
+    "a3": 1.0,
+    "signal": "red",
+    "pct_above_50sma": 27.8
   }
 ]
