@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-02 23:00 UTC",
+  "generated_at": "2026-04-03 23:01 UTC",
   "portfolio_value": 1611327,
   "market_indices": {
     "QQQ": {
@@ -218,8 +218,8 @@
   },
   "a2_breadth": {
     "score": 0.25,
-    "pct_above_50sma": 29.1,
-    "above_50sma": 23,
+    "pct_above_50sma": 30.4,
+    "above_50sma": 24,
     "total": 79,
     "advancing": 44,
     "declining": 35,
