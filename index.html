@@ -117,6 +117,40 @@ body{background:var(--bg);color:var(--t);font-family:'Outfit',sans-serif;padding
 .loading-spin{display:inline-block;width:28px;height:28px;border:3px solid var(--bd);border-top-color:var(--c);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* Watchlist */
+.wl-wrap{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px}
+.wl-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.wl-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--c)}
+.wl-meta{font-size:11px;color:var(--td)}
+.wl-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.wl-tbl th{text-align:left;padding:8px 8px;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--td);border-bottom:1px solid var(--bd)}
+.wl-tbl td{padding:8px 8px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.wl-tbl tr{cursor:pointer;transition:background .15s}
+.wl-tbl tr:hover td{background:var(--s2)}
+.wl-tbl .r-col{text-align:right}
+.wl-rank{font-size:11px;color:var(--td);font-weight:600;min-width:22px;text-align:center}
+.wl-ticker{font-weight:700;font-size:13px}
+.wl-name{font-size:10px;color:var(--td);display:block;margin-top:1px}
+.wl-score-bar{display:flex;align-items:center;gap:6px}
+.wl-score-num{font-weight:700;font-size:14px;min-width:28px}
+.wl-score-fill{height:5px;border-radius:3px;background:var(--s3);flex:1;min-width:40px;overflow:hidden}
+.wl-score-fill-inner{height:100%;border-radius:3px;transition:width .4s}
+.wl-signals{display:flex;flex-wrap:wrap;gap:3px}
+.wl-sig{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;letter-spacing:.5px;white-space:nowrap}
+.wl-sig-rs{background:rgba(59,130,246,.15);color:var(--b)}
+.wl-sig-vol{background:rgba(234,179,8,.15);color:var(--y)}
+.wl-sig-high{background:rgba(34,197,94,.15);color:var(--g)}
+.wl-sig-vcp{background:rgba(168,85,247,.15);color:#a855f7}
+.wl-sig-trend{background:rgba(6,182,212,.15);color:var(--c)}
+.wl-sig-sector{background:rgba(249,115,22,.15);color:var(--o)}
+.wl-spark{width:56px;height:22px}
+.wl-empty{text-align:center;padding:30px;color:var(--td);font-size:13px}
+.wl-breakdown{display:none;padding:10px 8px 6px;background:var(--s2);border-radius:6px;margin:-4px 0 4px}
+.wl-breakdown.open{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.wl-bd-item{text-align:center}
+.wl-bd-label{font-size:8px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--td);margin-bottom:2px}
+.wl-bd-val{font-size:12px;font-weight:700}
+
 /* Footer */
 .ftr{text-align:center;padding:20px 0;border-top:1px solid var(--bd);margin-top:24px;font-size:12px;color:var(--td)}
 
@@ -126,6 +160,7 @@ body{background:var(--bg);color:var(--t);font-family:'Outfit',sans-serif;padding
   .calc-grid{grid-template-columns:1fr}
   .calc-results{grid-template-columns:1fr}
   .sub-scores{grid-template-columns:1fr}
+  .wl-breakdown.open{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
@@ -216,6 +251,15 @@ body{background:var(--bg);color:var(--t);font-family:'Outfit',sans-serif;padding
     <div class="hist-wrap">
       <div class="hist-title mono">Storico Punteggi (ultimi 90 giorni)</div>
       <canvas class="hist-chart" id="hist-canvas"></canvas>
+    </div>
+
+    <!-- Watchlist — Potenziali Big Movers -->
+    <div class="wl-wrap" id="wl-section" style="display:none">
+      <div class="wl-hdr">
+        <div class="wl-title mono">&#9889; Today's Candidates &mdash; Potenziali Big Movers</div>
+        <div class="wl-meta mono" id="wl-meta"></div>
+      </div>
+      <div id="wl-content"></div>
     </div>
 
     <!-- Position Calc -->
@@ -316,6 +360,8 @@ function render() {
   renderA3(d);
   // History
   loadHistory();
+  // Watchlist
+  loadWatchlist();
 }
 
 function setScore(id, val) {
@@ -506,6 +552,123 @@ function calcPos(){
   const pctEl = document.getElementById('cr-pct');
   pctEl.textContent = pct.toFixed(1) + '%';
   pctEl.style.color = pct > 15 ? 'var(--r)' : pct > 10 ? 'var(--o)' : 'var(--c)';
+}
+
+// ── Watchlist ──
+async function loadWatchlist(){
+  try{
+    const res = await fetch('data/watchlist.json');
+    if(!res.ok) return;
+    const wl = await res.json();
+    renderWatchlist(wl);
+  }catch(e){}
+}
+
+function renderWatchlist(wl){
+  const section = document.getElementById('wl-section');
+  const content = document.getElementById('wl-content');
+  const meta = document.getElementById('wl-meta');
+  if(!wl.candidates || wl.candidates.length===0){
+    content.innerHTML='<div class="wl-empty">Nessun candidato oggi. Dati non ancora disponibili.</div>';
+    section.style.display='block';
+    return;
+  }
+  section.style.display='block';
+  meta.textContent=`${wl.analyzed} analizzati \u00b7 top ${wl.candidates.length} \u00b7 ${wl.generated_at}`;
+
+  const SIG_CLASS={RS_STRONG:'wl-sig-rs',VOL_SURGE:'wl-sig-vol',NEAR_HIGH:'wl-sig-high',VCP:'wl-sig-vcp',TREND_UP:'wl-sig-trend',SECTOR_HOT:'wl-sig-sector'};
+  const SIG_LABEL={RS_STRONG:'RS',VOL_SURGE:'VOL',NEAR_HIGH:'HIGH',VCP:'VCP',TREND_UP:'TREND',SECTOR_HOT:'SECTOR'};
+
+  let html='<div style="overflow-x:auto"><table class="wl-tbl"><thead><tr>';
+  html+='<th>#</th><th>Ticker</th><th>Score</th><th class="r-col">Prezzo</th><th class="r-col">4W%</th><th class="r-col">RS%</th><th class="r-col">Vol</th><th>Segnali</th><th>Chart</th>';
+  html+='</tr></thead><tbody>';
+
+  wl.candidates.forEach((c,i)=>{
+    const scoreCol=c.score>=70?'var(--g)':c.score>=50?'var(--c)':c.score>=35?'var(--y)':'var(--tm)';
+    const retCol=c.change_4w>=0?'var(--g)':'var(--r)';
+    const rsCol=c.rs_vs_spy>=0?'var(--g)':'var(--r)';
+    const volCol=c.vol_ratio>=1.5?'var(--y)':'var(--tm)';
+
+    // Segnali
+    let sigs='';
+    (c.signals||[]).forEach(s=>{
+      sigs+=`<span class="wl-sig ${SIG_CLASS[s]||'wl-sig-rs'}">${SIG_LABEL[s]||s}</span>`;
+    });
+
+    // Sparkline canvas id
+    const sparkId='wl-spark-'+i;
+
+    html+=`<tr onclick="wlSelect('${c.ticker}',${c.price})" title="Click per popolare il calcolatore posizione">`;
+    html+=`<td class="wl-rank mono">${i+1}</td>`;
+    html+=`<td><span class="wl-ticker">${c.ticker}</span><span class="wl-name">${c.name} \u00b7 ${c.sector}</span></td>`;
+    html+=`<td><div class="wl-score-bar"><span class="wl-score-num mono" style="color:${scoreCol}">${c.score}</span><div class="wl-score-fill"><div class="wl-score-fill-inner" style="width:${c.score}%;background:${scoreCol}"></div></div></div></td>`;
+    html+=`<td class="mono r-col">$${c.price}</td>`;
+    html+=`<td class="mono r-col" style="color:${retCol}">${c.change_4w>=0?'+':''}${c.change_4w}%</td>`;
+    html+=`<td class="mono r-col" style="color:${rsCol}">${c.rs_vs_spy>=0?'+':''}${c.rs_vs_spy}%</td>`;
+    html+=`<td class="mono r-col" style="color:${volCol}">${c.vol_ratio}x</td>`;
+    html+=`<td><div class="wl-signals">${sigs||'<span style="color:var(--td)">\u2014</span>'}</div></td>`;
+    html+=`<td><canvas class="wl-spark" id="${sparkId}"></canvas></td>`;
+    html+=`</tr>`;
+
+    // Breakdown row (hidden by default, toggle on click)
+    const bd=c.breakdown||{};
+    html+=`<tr id="wl-bd-${i}" style="display:none"><td colspan="9"><div class="wl-breakdown open">`;
+    html+=bdItem('RS',bd.rs,25);
+    html+=bdItem('Volume',bd.volume,15);
+    html+=bdItem('Near High',bd.proximity,20);
+    html+=bdItem('VCP',bd.vcp,15);
+    html+=bdItem('Trend',bd.trend,15);
+    html+=bdItem('Settore',bd.sector,10);
+    html+=`</div></td></tr>`;
+  });
+
+  html+='</tbody></table></div>';
+  content.innerHTML=html;
+
+  // Draw sparklines
+  wl.candidates.forEach((c,i)=>{
+    if(c.sparkline && c.sparkline.length>1) drawMiniSpark('wl-spark-'+i, c.sparkline);
+  });
+}
+
+function bdItem(label,val,max){
+  const pct=max>0?(val/max*100):0;
+  const col=pct>=70?'var(--g)':pct>=40?'var(--y)':'var(--td)';
+  return `<div class="wl-bd-item"><div class="wl-bd-label">${label}</div><div class="wl-bd-val mono" style="color:${col}">${val}/${max}</div></div>`;
+}
+
+function drawMiniSpark(canvasId, data){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const W=rect.width, H=rect.height;
+  const mn=Math.min(...data), mx=Math.max(...data);
+  const range=mx-mn||1;
+  const up=data[data.length-1]>=data[0];
+
+  ctx.beginPath();
+  ctx.strokeStyle=up?'#22c55e':'#ef4444';
+  ctx.lineWidth=1.2;
+  data.forEach((v,i)=>{
+    const x=(i/(data.length-1))*W;
+    const y=H-((v-mn)/range)*(H-4)-2;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+}
+
+let wlExpandedRow=-1;
+function wlSelect(ticker,price){
+  // Popola il calcolatore posizione
+  document.getElementById('c-entry').value=price;
+  document.getElementById('c-entry').dispatchEvent(new Event('input'));
+  // Scroll al calcolatore
+  document.querySelector('.calc').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 window.addEventListener('resize', () => { if(DATA) loadHistory(); });
