@@ -781,5 +781,14 @@
     "a3": 1.0,
     "signal": "green",
     "pct_above_50sma": 57.0
+  },
+  {
+    "date": "2026-06-30",
+    "total": 2.13,
+    "a1": 0.75,
+    "a2": 0.38,
+    "a3": 1.0,
+    "signal": "yellow",
+    "pct_above_50sma": 53.2
   }
 ]
