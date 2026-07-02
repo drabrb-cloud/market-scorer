@@ -799,5 +799,14 @@
     "a3": 0,
     "signal": "orange",
     "pct_above_50sma": 59.5
+  },
+  {
+    "date": "2026-07-02",
+    "total": 1.75,
+    "a1": 0.75,
+    "a2": 1.0,
+    "a3": 0,
+    "signal": "orange",
+    "pct_above_50sma": 62.0
   }
 ]
