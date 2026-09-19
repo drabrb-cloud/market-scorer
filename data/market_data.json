@@ -1,23 +1,22 @@
 {
-  "generated_at": "2026-09-18 00:40 UTC",
+  "generated_at": "2026-09-19 00:30 UTC",
   "portfolio_value": 1611327,
   "market_indices": {
     "QQQ": {
-      "price": 704.72,
-      "change_1d": 0.03,
-      "change_1w": -0.56,
-      "change_4w": -1.59,
-      "ema21": 712.17,
-      "ema50": 710.42,
-      "sma200": 660.74,
-      "dist_ema21_pct": -1.05,
-      "ema21_slope": -0.277,
-      "above_ema21": false,
+      "price": 716.92,
+      "change_1d": 1.73,
+      "change_1w": 0.29,
+      "change_4w": 0.84,
+      "ema21": 712.61,
+      "ema50": 710.67,
+      "sma200": 661.24,
+      "dist_ema21_pct": 0.61,
+      "ema21_slope": -0.225,
+      "above_ema21": true,
       "ema_aligned": true,
       "above_sma200": true,
       "hh_hl": true,
       "sparkline": [
-        717.2999877929688,
         714.6500244140625,
         723.030029296875,
         720.8699951171875,
@@ -46,26 +45,26 @@
         714.8800048828125,
         709.1799926757812,
         704.5399780273438,
-        704.719970703125
+        704.719970703125,
+        716.9199829101562
       ],
       "name": "Nasdaq 100"
     },
     "SPY": {
-      "price": 754.05,
-      "change_1d": -0.44,
-      "change_1w": -0.5,
-      "change_4w": -1.95,
-      "ema21": 762.99,
-      "ema50": 758.17,
-      "sma200": 713.39,
-      "dist_ema21_pct": -1.17,
-      "ema21_slope": -0.257,
+      "price": 762.6,
+      "change_1d": 1.13,
+      "change_1w": -0.22,
+      "change_4w": 0.0,
+      "ema21": 762.95,
+      "ema50": 758.34,
+      "sma200": 713.81,
+      "dist_ema21_pct": -0.05,
+      "ema21_slope": -0.254,
       "above_ema21": false,
       "ema_aligned": true,
       "above_sma200": true,
       "hh_hl": true,
       "sparkline": [
-        769.7899780273438,
         768.5599975585938,
         773.260009765625,
         773.030029296875,
@@ -94,26 +93,26 @@
         764.2899780273438,
         760.8800048828125,
         757.3900146484375,
-        754.0499877929688
+        754.0499877929688,
+        762.5999755859375
       ],
       "name": "S&P 500"
     },
     "DIA": {
-      "price": 515.22,
-      "change_1d": -1.15,
-      "change_1w": -1.06,
-      "change_4w": -3.49,
-      "ema21": 527.52,
-      "ema50": 525.91,
-      "sma200": 498.33,
-      "dist_ema21_pct": -2.33,
-      "ema21_slope": -0.548,
+      "price": 518.35,
+      "change_1d": 0.61,
+      "change_1w": -1.42,
+      "change_4w": -1.65,
+      "ema21": 526.69,
+      "ema50": 525.61,
+      "sma200": 498.56,
+      "dist_ema21_pct": -1.58,
+      "ema21_slope": -0.626,
       "above_ema21": false,
       "ema_aligned": true,
       "above_sma200": true,
       "hh_hl": true,
       "sparkline": [
-        542.3602905273438,
         537.744140625,
         539.1729736328125,
         538.54345703125,
@@ -142,26 +141,26 @@
         525.7899780273438,
         524.489990234375,
         521.22998046875,
-        515.219970703125
+        515.219970703125,
+        518.3499755859375
       ],
       "name": "Dow Jones"
     },
     "IWM": {
-      "price": 283.92,
-      "change_1d": -0.43,
-      "change_1w": -1.06,
-      "change_4w": -5.65,
-      "ema21": 291.92,
-      "ema50": 292.85,
-      "sma200": 273.11,
-      "dist_ema21_pct": -2.74,
-      "ema21_slope": -0.946,
+      "price": 285.43,
+      "change_1d": 0.53,
+      "change_1w": -0.94,
+      "change_4w": -3.86,
+      "ema21": 291.33,
+      "ema50": 292.56,
+      "sma200": 273.31,
+      "dist_ema21_pct": -2.03,
+      "ema21_slope": -0.945,
       "above_ema21": false,
       "ema_aligned": false,
       "above_sma200": true,
       "hh_hl": false,
       "sparkline": [
-        298.9891052246094,
         297.47308349609375,
         300.7744445800781,
         299.1985778808594,
@@ -190,54 +189,54 @@
         288.1374816894531,
         287.1600036621094,
         285.1400146484375,
-        283.9200134277344
+        283.9200134277344,
+        285.42999267578125
       ],
       "name": "Russell 2000"
     }
   },
   "a1_trend": {
-    "score": 0.5,
-    "qqq_score": 0.5,
+    "score": 0.62,
+    "qqq_score": 0.75,
     "spy_score": 0.5,
     "details": {
       "QQQ": {
-        "above_ema21": false,
+        "above_ema21": true,
         "ema_aligned": true,
         "above_sma200": true,
         "hh_hl": true,
-        "ema21_slope": -0.277
+        "ema21_slope": -0.225
       },
       "SPY": {
         "above_ema21": false,
         "ema_aligned": true,
         "above_sma200": true,
         "hh_hl": true,
-        "ema21_slope": -0.257
+        "ema21_slope": -0.254
       }
     }
   },
   "a2_breadth": {
-    "score": 0.25,
-    "pct_above_50sma": 46.2,
-    "above_50sma": 36,
+    "score": 0.5,
+    "pct_above_50sma": 44.9,
+    "above_50sma": 35,
     "total": 78,
-    "advancing": 26,
-    "declining": 52,
-    "ad_ratio": 0.5,
-    "near_highs": 6,
-    "near_lows": 22
+    "advancing": 51,
+    "declining": 27,
+    "ad_ratio": 1.89,
+    "near_highs": 9,
+    "near_lows": 19
   },
   "sectors": {
     "SMH": {
       "name": "Semiconduttori",
-      "price": 545.56,
-      "change_1d": 0.64,
-      "change_1w": -2.63,
-      "change_4w": -2.74,
-      "above_ema21": false,
+      "price": 560.61,
+      "change_1d": 2.76,
+      "change_1w": -1.39,
+      "change_4w": -0.36,
+      "above_ema21": true,
       "ema_aligned": false,
       "sparkline": [
-        569.7000122070312,
         571.47998046875,
         582.7000122070312,
         569.4099731445312,
@@ -266,23 +265,23 @@
         568.530029296875,
         541.5,
         542.1099853515625,
-        545.5599975585938
+        545.5599975585938,
+        560.6099853515625
       ],
-      "rs_score": 0,
-      "rs_diff": -0.79,
-      "sector_return_4w": -2.74,
-      "rank": 8
+      "rs_score": 0.4,
+      "rs_diff": -0.36,
+      "sector_return_4w": -0.36,
+      "rank": 7
     },
     "XLK": {
       "name": "Technology",
-      "price": 183.93,
-      "change_1d": 0.1,
-      "change_1w": -0.7,
-      "change_4w": 0.16,
-      "above_ema21": false,
+      "price": 188.06,
+      "change_1d": 2.25,
+      "change_1w": 0.21,
+      "change_4w": 2.71,
+      "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        185.91000366210938,
         185.3300018310547,
         187.97000122070312,
         186.32000732421875,
@@ -311,23 +310,23 @@
         187.6699981689453,
         184.27999877929688,
         183.74000549316406,
-        183.92999267578125
+        183.92999267578125,
+        188.05999755859375
       ],
-      "rs_score": 0.7,
-      "rs_diff": 2.11,
-      "sector_return_4w": 0.16,
-      "rank": 5
+      "rs_score": 1.0,
+      "rs_diff": 2.71,
+      "sector_return_4w": 2.71,
+      "rank": 3
     },
     "XLE": {
       "name": "Energy",
-      "price": 64.03,
-      "change_1d": -2.88,
-      "change_1w": -1.39,
-      "change_4w": 0.71,
+      "price": 64.48,
+      "change_1d": 0.7,
+      "change_1w": -1.01,
+      "change_4w": 1.15,
       "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        57.310001373291016,
         58.15999984741211,
         57.5,
         60.18000030517578,
@@ -356,23 +355,23 @@
         65.13999938964844,
         64.52999877929688,
         65.93000030517578,
-        64.02999877929688
+        64.02999877929688,
+        64.4800033569336
       ],
       "rs_score": 1.0,
-      "rs_diff": 2.66,
-      "sector_return_4w": 0.71,
-      "rank": 4
+      "rs_diff": 1.15,
+      "sector_return_4w": 1.15,
+      "rank": 6
     },
     "XLF": {
       "name": "Financials",
-      "price": 55.93,
-      "change_1d": -1.62,
-      "change_1w": -1.65,
-      "change_4w": -2.7,
+      "price": 55.88,
+      "change_1d": -0.09,
+      "change_1w": -2.39,
+      "change_4w": -1.88,
       "above_ema21": false,
       "ema_aligned": true,
       "sparkline": [
-        58.0,
         57.810001373291016,
         57.599998474121094,
         57.810001373291016,
@@ -401,23 +400,23 @@
         57.25,
         57.029998779296875,
         56.849998474121094,
-        55.93000030517578
+        55.93000030517578,
+        55.880001068115234
       ],
       "rs_score": 0,
-      "rs_diff": -0.74,
-      "sector_return_4w": -2.7,
-      "rank": 7
+      "rs_diff": -1.88,
+      "sector_return_4w": -1.88,
+      "rank": 9
     },
     "XLI": {
       "name": "Industrials",
-      "price": 168.71,
-      "change_1d": -0.08,
-      "change_1w": -1.08,
-      "change_4w": -7.28,
+      "price": 169.01,
+      "change_1d": 0.18,
+      "change_1w": -1.95,
+      "change_4w": -5.99,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        186.35000610351562,
         184.75999450683594,
         185.17999267578125,
         184.60000610351562,
@@ -446,23 +445,23 @@
         172.3699951171875,
         169.92999267578125,
         168.85000610351562,
-        168.7100067138672
+        168.7100067138672,
+        169.00999450683594
       ],
       "rs_score": 0,
-      "rs_diff": -5.32,
-      "sector_return_4w": -7.28,
+      "rs_diff": -5.99,
+      "sector_return_4w": -5.99,
       "rank": 16
     },
     "XLV": {
       "name": "Healthcare",
-      "price": 167.77,
-      "change_1d": 0.07,
-      "change_1w": 1.27,
-      "change_4w": -4.5,
-      "above_ema21": false,
+      "price": 168.81,
+      "change_1d": 0.62,
+      "change_1w": 2.09,
+      "change_4w": -2.08,
+      "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        164.16000366210938,
         164.4499969482422,
         165.67999267578125,
         168.44000244140625,
@@ -491,23 +490,23 @@
         165.36000061035156,
         167.75,
         167.66000366210938,
-        167.77000427246094
+        167.77000427246094,
+        168.80999755859375
       ],
       "rs_score": 0,
-      "rs_diff": -2.55,
-      "sector_return_4w": -4.5,
-      "rank": 11
+      "rs_diff": -2.08,
+      "sector_return_4w": -2.08,
+      "rank": 10
     },
     "XLC": {
       "name": "Communication",
-      "price": 113.0,
-      "change_1d": -0.9,
-      "change_1w": 1.35,
+      "price": 112.35,
+      "change_1d": -0.58,
+      "change_1w": -0.22,
       "change_4w": 1.51,
       "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        110.87000274658203,
         111.18000030517578,
         111.25,
         111.83000183105469,
@@ -536,23 +535,23 @@
         112.5999984741211,
         115.06999969482422,
         114.02999877929688,
-        113.0
+        113.0,
+        112.3499984741211
       ],
       "rs_score": 1.0,
-      "rs_diff": 3.46,
+      "rs_diff": 1.51,
       "sector_return_4w": 1.51,
-      "rank": 3
+      "rank": 5
     },
     "XLY": {
       "name": "Consumer Discr.",
-      "price": 110.18,
-      "change_1d": -0.63,
-      "change_1w": -1.59,
-      "change_4w": -7.09,
+      "price": 111.39,
+      "change_1d": 1.1,
+      "change_1w": -1.39,
+      "change_4w": -4.53,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        118.63999938964844,
         118.0999984741211,
         119.86000061035156,
         119.66999816894531,
@@ -581,23 +580,23 @@
         112.95999908447266,
         112.8499984741211,
         110.87999725341797,
-        110.18000030517578
+        110.18000030517578,
+        111.38999938964844
       ],
       "rs_score": 0,
-      "rs_diff": -5.14,
-      "sector_return_4w": -7.09,
+      "rs_diff": -4.53,
+      "sector_return_4w": -4.53,
       "rank": 14
     },
     "XLP": {
       "name": "Consumer Staples",
-      "price": 83.33,
-      "change_1d": -0.48,
-      "change_1w": 0.29,
-      "change_4w": -3.71,
+      "price": 83.49,
+      "change_1d": 0.19,
+      "change_1w": 0.13,
+      "change_4w": -2.14,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        85.33000183105469,
         85.11000061035156,
         85.12000274658203,
         84.94999694824219,
@@ -626,23 +625,23 @@
         83.37999725341797,
         84.41999816894531,
         83.7300033569336,
-        83.33000183105469
+        83.33000183105469,
+        83.48999786376953
       ],
       "rs_score": 0,
-      "rs_diff": -1.76,
-      "sector_return_4w": -3.71,
-      "rank": 10
+      "rs_diff": -2.14,
+      "sector_return_4w": -2.14,
+      "rank": 11
     },
     "XLU": {
       "name": "Utilities",
-      "price": 41.32,
-      "change_1d": 0.0,
-      "change_1w": -2.82,
-      "change_4w": -6.13,
+      "price": 41.69,
+      "change_1d": 0.9,
+      "change_1w": -1.65,
+      "change_4w": -4.75,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        43.65999984741211,
         43.380001068115234,
         43.61000061035156,
         43.130001068115234,
@@ -671,23 +670,23 @@
         42.38999938964844,
         41.81999969482422,
         41.31999969482422,
-        41.31999969482422
+        41.31999969482422,
+        41.689998626708984
       ],
       "rs_score": 0,
-      "rs_diff": -4.18,
-      "sector_return_4w": -6.13,
-      "rank": 12
+      "rs_diff": -4.75,
+      "sector_return_4w": -4.75,
+      "rank": 15
     },
     "ARKK": {
       "name": "Innovation",
-      "price": 83.18,
-      "change_1d": -0.37,
-      "change_1w": 0.14,
-      "change_4w": -0.16,
-      "above_ema21": false,
+      "price": 86.92,
+      "change_1d": 4.5,
+      "change_1w": 4.0,
+      "change_4w": 4.38,
+      "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        76.18000030517578,
         75.7300033569336,
         79.43000030517578,
         80.44000244140625,
@@ -716,23 +715,23 @@
         83.58000183105469,
         84.72000122070312,
         83.48999786376953,
-        83.18000030517578
+        83.18000030517578,
+        86.91999816894531
       ],
-      "rs_score": 0.7,
-      "rs_diff": 1.8,
-      "sector_return_4w": -0.16,
-      "rank": 6
+      "rs_score": 1.0,
+      "rs_diff": 4.38,
+      "sector_return_4w": 4.38,
+      "rank": 2
     },
     "IBB": {
       "name": "Biotech",
-      "price": 202.4,
-      "change_1d": 0.2,
-      "change_1w": -0.11,
-      "change_4w": -6.71,
-      "above_ema21": false,
+      "price": 207.07,
+      "change_1d": 2.31,
+      "change_1w": 2.05,
+      "change_4w": -1.78,
+      "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        191.78968811035156,
         192.95962524414062,
         197.69937133789062,
         200.00924682617188,
@@ -761,23 +760,23 @@
         202.91908264160156,
         204.58900451660156,
         202.0,
-        202.39999389648438
+        202.39999389648438,
+        207.07000732421875
       ],
       "rs_score": 0,
-      "rs_diff": -4.75,
-      "sector_return_4w": -6.71,
-      "rank": 13
+      "rs_diff": -1.78,
+      "sector_return_4w": -1.78,
+      "rank": 8
     },
     "XME": {
       "name": "Metals & Mining",
-      "price": 108.77,
-      "change_1d": -0.61,
-      "change_1w": -5.23,
-      "change_4w": -7.09,
+      "price": 111.32,
+      "change_1d": 2.34,
+      "change_1w": -2.03,
+      "change_4w": -2.95,
       "above_ema21": false,
       "ema_aligned": true,
       "sparkline": [
-        111.91999816894531,
         110.3499984741211,
         115.73999786376953,
         117.54000091552734,
@@ -806,23 +805,23 @@
         113.62999725341797,
         110.16999816894531,
         109.44000244140625,
-        108.7699966430664
+        108.7699966430664,
+        111.31999969482422
       ],
       "rs_score": 0,
-      "rs_diff": -5.14,
-      "sector_return_4w": -7.09,
-      "rank": 15
+      "rs_diff": -2.95,
+      "sector_return_4w": -2.95,
+      "rank": 13
     },
     "HACK": {
       "name": "Cybersecurity",
-      "price": 119.46,
-      "change_1d": -0.94,
-      "change_1w": 8.11,
-      "change_4w": 6.39,
+      "price": 120.48,
+      "change_1d": 0.85,
+      "change_1w": 9.63,
+      "change_4w": 9.76,
       "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        114.6500015258789,
         113.19000244140625,
         115.41999816894531,
         119.19000244140625,
@@ -851,23 +850,23 @@
         109.9000015258789,
         118.55999755859375,
         120.58999633789062,
-        119.45999908447266
+        119.45999908447266,
+        120.4800033569336
       ],
       "rs_score": 1.0,
-      "rs_diff": 8.34,
-      "sector_return_4w": 6.39,
+      "rs_diff": 9.76,
+      "sector_return_4w": 9.76,
       "rank": 1
     },
     "TAN": {
       "name": "Solar",
-      "price": 44.62,
-      "change_1d": -1.04,
-      "change_1w": -5.14,
-      "change_4w": -11.59,
+      "price": 46.36,
+      "change_1d": 3.9,
+      "change_1w": -1.68,
+      "change_4w": -6.78,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        51.27000045776367,
         51.25,
         52.75,
         51.86000061035156,
@@ -896,23 +895,23 @@
         47.150001525878906,
         46.220001220703125,
         45.09000015258789,
-        44.619998931884766
+        44.619998931884766,
+        46.36000061035156
       ],
       "rs_score": 0,
-      "rs_diff": -9.64,
-      "sector_return_4w": -11.59,
-      "rank": 18
+      "rs_diff": -6.78,
+      "sector_return_4w": -6.78,
+      "rank": 17
     },
     "BITQ": {
       "name": "Crypto/Blockchain",
-      "price": 24.35,
-      "change_1d": -1.1,
-      "change_1w": -3.87,
-      "change_4w": 4.73,
-      "above_ema21": false,
+      "price": 25.19,
+      "change_1d": 3.45,
+      "change_1w": -2.44,
+      "change_4w": 2.44,
+      "above_ema21": true,
       "ema_aligned": true,
       "sparkline": [
-        23.040000915527344,
         22.559999465942383,
         22.8799991607666,
         22.190000534057617,
@@ -941,23 +940,23 @@
         25.81999969482422,
         26.06999969482422,
         24.6200008392334,
-        24.350000381469727
+        24.350000381469727,
+        25.190000534057617
       ],
-      "rs_score": 0.7,
-      "rs_diff": 6.68,
-      "sector_return_4w": 4.73,
-      "rank": 2
+      "rs_score": 1.0,
+      "rs_diff": 2.44,
+      "sector_return_4w": 2.44,
+      "rank": 4
     },
     "ITB": {
       "name": "Homebuilders",
-      "price": 88.12,
-      "change_1d": -1.12,
-      "change_1w": 0.73,
-      "change_4w": -10.47,
+      "price": 88.55,
+      "change_1d": 0.49,
+      "change_1w": -0.27,
+      "change_4w": -7.69,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        100.03531646728516,
         97.64550018310547,
         100.29313659667969,
         97.56616973876953,
@@ -986,23 +985,23 @@
         88.79026794433594,
         89.29600524902344,
         89.12000274658203,
-        88.12000274658203
+        88.12000274658203,
+        88.55000305175781
       ],
       "rs_score": 0,
-      "rs_diff": -8.52,
-      "sector_return_4w": -10.47,
-      "rank": 17
+      "rs_diff": -7.69,
+      "sector_return_4w": -7.69,
+      "rank": 18
     },
     "KRE": {
       "name": "Regional Banks",
       "price": 72.74,
-      "change_1d": -1.77,
-      "change_1w": -1.45,
-      "change_4w": -3.01,
+      "change_1d": 0.0,
+      "change_1w": -1.57,
+      "change_4w": -2.64,
       "above_ema21": false,
       "ema_aligned": false,
       "sparkline": [
-        77.33999633789062,
         76.48999786376953,
         76.20999908447266,
         76.02999877929688,
@@ -1031,20 +1030,21 @@
         73.9000015258789,
         74.11000061035156,
         74.05000305175781,
+        72.73999786376953,
         72.73999786376953
       ],
       "rs_score": 0,
-      "rs_diff": -1.06,
-      "sector_return_4w": -3.01,
-      "rank": 9
+      "rs_diff": -2.64,
+      "sector_return_4w": -2.64,
+      "rank": 12
     }
   },
   "a3_sector": {
     "default_sector": "SMH",
-    "score": 0,
+    "score": 0.4,
     "all_scores": {
-      "SMH": 0,
-      "XLK": 0.7,
+      "SMH": 0.4,
+      "XLK": 1.0,
       "XLE": 1.0,
       "XLF": 0,
       "XLI": 0,
@@ -1053,22 +1053,22 @@
       "XLY": 0,
       "XLP": 0,
       "XLU": 0,
-      "ARKK": 0.7,
+      "ARKK": 1.0,
       "IBB": 0,
       "XME": 0,
       "HACK": 1.0,
       "TAN": 0,
-      "BITQ": 0.7,
+      "BITQ": 1.0,
       "ITB": 0,
       "KRE": 0
     }
   },
-  "total_score": 0.75,
+  "total_score": 1.52,
   "verdict": {
-    "signal": "red",
-    "risk_pct": 0,
-    "risk_dollar": 0,
-    "max_trades_week": 0,
+    "signal": "orange",
+    "risk_pct": 0.1,
+    "risk_dollar": 1611,
+    "max_trades_week": 1,
     "weekly_loss_budget": 4028
   }
 }
